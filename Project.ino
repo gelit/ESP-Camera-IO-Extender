@@ -1,4 +1,4 @@
-// 28 juin
+// 29 juin : correct L23 & L95
 
 #include "esp_camera.h"
 #define CAMERA_MODEL_XIAO_ESP32S3 // Has PSRAM
@@ -20,6 +20,9 @@ bool Switch = 0;
 
 void setup() {
 
+  Serial.begin(115200);
+  Serial.println("Begin of Setup");
+
   Wire.begin(I2C_SDA, I2C_SCL);
   if (io.begin(0x3E) == false)
   {
@@ -31,9 +34,6 @@ void setup() {
   pinMode(TFT_BL,OUTPUT); digitalWrite(TFT_BL,1); 
 
   pinMode(LED_BUILTIN,OUTPUT);
-
-  Serial.begin(115200);
-  Serial.println("Begin of Setup");
 
 //--
 tft.init();
@@ -92,7 +92,7 @@ void loop() {
   camera_fb_t *fb = esp_camera_fb_get();  
   if(!fb) { Serial.println("Camera capture failed"); delay(1000); return; } 
   else {
-    tft.pushImage(0, 10, 320, 240, (uint16_t*)fb->buf);
+    tft.pushImage(0, 0, 320, 240, (uint16_t*)fb->buf);
     esp_camera_fb_return(fb);
   }
 
